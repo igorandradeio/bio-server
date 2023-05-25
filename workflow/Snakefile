@@ -1,7 +1,13 @@
+from snakemake.utils import min_version
 
-# Arquivo Snakefile
+# Minimum snakemake version
+min_version("5.10.0")
 
-# Definindo as regras da pipeline
+# Pipeline settings
+configfile: "config/config.yaml"
+
+
+# Rules
 
 rule all:
     input:
@@ -26,16 +32,9 @@ rule download_read_2:
             ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR326/007/ERR3265077/ERR3265077_2.fastq.gz
     """
 
-rule preprocess_reads:
-    input:
-        read_1 = "reads/ERR3265077_1.fastq.gz",
-        read_2 = "reads/ERR3265077_2.fastq.gz"
-    output:
-        preprocess_read_1 = "preprocessed_reads/ERR3265077_1.fastq.gz",
-        preprocess_read_2 = "preprocessed_reads/ERR3265077_2.fastq.gz"
-    message: "Filter out bad reads"
-    shell:
-        "tools/fastp/fastp -i {input.read_1} -I {input.read_2} -o {output.preprocess_read_1} -O {output.preprocess_read_2}"
+# Import rules
+
+include: "rules/QualityControl.smk"
 
 # rule megahit_assembly:
 #     input:
@@ -46,5 +45,3 @@ rule preprocess_reads:
 #     shell:
 #         "tools/megahit/bin/megahit -1 preprocessed_reads/ERR3265077_1.fastq.gz -2 preprocessed_reads/ERR3265077_2.fastq.gz -o assembly/final.contigs.fa/final.contigs.fa"
 
-# # Pipeline settings file
-# configfile: "config.yaml"
