@@ -1,0 +1,19 @@
+# Arquivo config.yaml
+
+# Configurações gerais
+threads: 8
+memory: 16G
+
+# Caminhos de arquivos de entrada e saída
+reads_dir: "data/reads"
+output_dir: "results/assembly"
+reference_genome: "data/reference.fasta"
+
+# Parâmetros específicos da pipeline
+params:
+  kmer_sizes: "21,31,41,51,61,71,81,91,101"
+  min_coverage: 5
+  threshold: 0.95
+
+# Outras configurações
+other_config: value
