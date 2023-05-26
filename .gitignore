@@ -1,5 +1,7 @@
-preprocessed_reads/ERR3265077_1.fastq.gz
-preprocessed_reads/ERR3265077_2.fastq.gz
-reads/ERR3265077_1.fastq.gz
-reads/ERR3265077_2.fastq.gz
+preprocessed_reads
+reads
+data
+assembly
 .snakemake
+fastp.html
+fastp.json

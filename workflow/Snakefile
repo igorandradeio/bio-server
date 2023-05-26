@@ -3,45 +3,25 @@ from snakemake.utils import min_version
 # Minimum snakemake version
 min_version("5.10.0")
 
+
 # Pipeline settings
 configfile: "config/config.yaml"
 
 
 # Rules
 
+
 rule all:
     input:
-        "reads/ERR3265077_1.fastq.gz",
-        "reads/ERR3265077_2.fastq.gz",
-        "preprocessed_reads/ERR3265077_1.fastq.gz",
-        "preprocessed_reads/ERR3265077_2.fastq.gz"
+        # "data/1/paired-end/sample1.fastq.gz",
+        # "data/1/paired-end/sample2.fastq.gz",
+        # "preprocessed_reads/1/paired-end/sample1.fastq.gz",
+        # "preprocessed_reads/1/paired-end/sample2.fastq.gz",
+        directory("assembly/final.contigs.fa"),
 
-rule download_read_1:
-    output: "reads/ERR3265077_1.fastq.gz"
-    message: "Downloading sample 1"
-    shell: """
-        wget -O {output} \
-            ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR326/007/ERR3265077/ERR3265077_1.fastq.gz
-    """
 
-rule download_read_2:
-    output: "reads/ERR3265077_2.fastq.gz"
-    message: "Downloading sample 2"
-    shell: """
-        wget -O {output} \
-            ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR326/007/ERR3265077/ERR3265077_2.fastq.gz
-    """
+# Load rules
 
-# Import rules
 
 include: "rules/QualityControl.smk"
-
-# rule megahit_assembly:
-#     input:
-#         "preprocessed_reads/ERR3265077_1.fastq.gz",
-#         "preprocessed_reads/ERR3265077_2.fastq.gz"
-#     output:
-#         "assembly/final.contigs.fa/final.contigs.fa"
-#     shell:
-#         "tools/megahit/bin/megahit -1 preprocessed_reads/ERR3265077_1.fastq.gz -2 preprocessed_reads/ERR3265077_2.fastq.gz -o assembly/final.contigs.fa/final.contigs.fa"
-
+include: "rules/Assembly.smk"
