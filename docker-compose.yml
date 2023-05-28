@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  # image project
+  app:
+    build:
+      args:
+        user: igor
+        uid: 1001
+      context: ./
+      dockerfile: Dockerfile
+    image: bio-application
+    restart: unless-stopped
+    command: tail -f /dev/null
+    working_dir: /opt/bio-app/
+    volumes:
+      - ./:/opt/bio-app
+    networks:
+      - app-network
+
+  # db mysql
+  mysql:
+    image: mysql:8.0.20
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: app-db
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_PASSWORD: root
+      MYSQL_USER: root
+    volumes:
+      - database-volume:/var/lib/mysql
+    ports:
+      - 3310:3306
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+# Volume
+volumes:
+  database-volume:
+    driver: local
