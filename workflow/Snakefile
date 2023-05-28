@@ -1,7 +1,7 @@
 from snakemake.utils import min_version
 
 # Minimum snakemake version
-min_version("5.10.0")
+min_version("6.15.1")
 
 
 # Pipeline settings
