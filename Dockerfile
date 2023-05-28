@@ -20,7 +20,7 @@ RUN apt install -y \
     snakemake
 
 # Create system user
-RUN useradd -m -s /bin/bash $user
+RUN useradd -G www-data,root -u $uid -d /opt/bio-app $user
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
